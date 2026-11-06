@@ -1,12 +1,14 @@
 # Gestor ADSO
 
-Proyecto integrador con **PHP y Laravel** para el programa ADSO (SENA Regional Antioquia · CTMA), desarrollado con Aprendizaje Basado en Proyectos (ABP). Este README documenta la **Semana 1: instalación y primer arranque**.
+Proyecto integrador con **PHP y Laravel** para el programa ADSO (SENA Regional Antioquia · CTMA), desarrollado con Aprendizaje Basado en Proyectos (ABP).
+
+## Sobre el Proyecto
+Este sistema permite la gestión (CRUD) de aprendices del programa ADSO. Es una aplicación web funcional construida sobre el framework Laravel.
 
 - **Autor:** Saúl Ramírez
 - **Ficha:** 3412768
 - **Instructor:** Gustavo Bolaños
 - **Sistema operativo:** Kubuntu (Linux)
-
 
 ---
 
