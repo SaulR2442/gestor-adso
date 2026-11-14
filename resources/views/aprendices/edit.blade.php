@@ -3,24 +3,34 @@
 @section('title', 'Editar Aprendiz')
 
 @section('content')
+<x-slot name="header">
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        {{ __('Editar Aprendiz') }}
+    </h2>
+</x-slot>
 
-<h1>Editar Aprendiz</h1>
+<div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <form
+                action="{{ route('aprendices.update', ['aprendiz' => $aprendiz->id]) }}"
+                method="POST">
 
-<form
-    action="{{ route('aprendices.update', $aprendiz) }}"
-    method="POST">
-    @method('PUT')
+                @method('PUT')
 
-    @include('aprendices._form', [
-    'aprendiz' => $aprendiz,
-    'buttonText' => 'Actualizar aprendiz',
-    ])
-</form>
+                @include('aprendices._form', [
+                'aprendiz' => $aprendiz,
+                'buttonText' => 'Actualizar aprendiz',
+                ])
+            </form>
 
-<p>
-    <a href="{{ route('aprendices.index') }}">
-        Volver al listado
-    </a>
-</p>
+            <div class="mt-4">
+                <a href="{{ route('aprendices.index') }}" class="text-gray-600 hover:text-gray-900">
+                    &larr; Volver al listado
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection

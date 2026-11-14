@@ -2,165 +2,59 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Gestor ADSO')</title>
-
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        :root {
-            --primary-color: #2980b9;
-            --text-color: #2c3e50;
-            --bg-color: #ecf0f1;
-            --border-color: #bdc3c7;
-            --success-bg: #d6eaf8;
-            --success-border: #aed6f1;
-            --danger-bg: #f2d7d5;
-            --danger-border: #e6b0aa;
-            --danger-color: #c0392b;
-        }
-
-        body {
-            max-width: 1100px;
-            margin: 24px auto;
-            padding: 0 16px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--text-color);
-            background-color: #f9f9f9;
-        }
-
-        nav {
-            margin-bottom: 24px;
-            padding: 10px 0;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        nav a,
-        a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .flash {
-            background: var(--success-bg);
-            border: 1px solid var(--success-border);
-            color: #1b4f72;
-            padding: 10px;
-            margin: 12px 0;
-        }
-
-        .danger {
-            background: var(--danger-bg);
-            border: 1px solid var(--danger-border);
-            color: var(--danger-color);
-            padding: 10px;
-            margin: 12px 0;
-        }
-
-        .field {
-            margin-bottom: 14px;
-        }
-
-        .field label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-
-        input {
-            padding: 7px;
-            min-width: 280px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-        }
-
-        button,
-        .button {
-            display: inline-block;
-            padding: 7px 12px;
-            cursor: pointer;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 4px;
-        }
-
-        .toolbar {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            justify-content: space-between;
-            margin: 16px 0;
-            flex-wrap: wrap;
-        }
-
-        .search-form {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 12px;
-            background: white;
-        }
-
-        th,
-        td {
-            border: 1px solid var(--border-color);
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background: #e5e8e8;
-        }
-
-        .actions {
-            white-space: nowrap;
-        }
-
-        .actions form {
-            display: inline;
-            margin-left: 8px;
-        }
-
-        .danger-button {
-            background-color: var(--danger-color);
-        }
-
-        .pagination {
-            margin-top: 18px;
-        }
-
-        .pagination svg,
-        nav[role="navigation"] svg {
-            width: 18px;
-            height: 18px;
-        }
+        body { max-width: 1100px; margin: 24px auto; padding: 0 16px; font-family: system-ui, sans-serif; }
+        nav { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 18px; }
+        nav form { display: inline; }
+        .flash { background: #e6ffed; padding: 10px; border-radius: 8px; margin: 10px 0; }
+        .danger { background: #ffecec; padding: 10px; border-radius: 8px; margin: 10px 0; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 7px; text-align: left; }
     </style>
 </head>
 <body>
-
     <nav>
-        <a href="{{ route('aprendices.index') }}">
-            Aprendices
-        </a>
+        @auth
+            <a href="{{ route('aprendices.index') }}">Aprendices</a>
+            <span>Hola, {{ auth()->user()->name }}</span>
+
+            @if (Route::has('profile.edit'))
+                <a href="{{ route('profile.edit') }}">Perfil</a>
+            @endif
+
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit">Salir</button>
+            </form>
+        @endauth
+
+        @guest
+            <a href="{{ route('login') }}">Iniciar sesión</a>
+            <a href="{{ route('register') }}">Registrarse</a>
+        @endguest
     </nav>
 
     @if (session('ok'))
-        <div class="flash">
-            {{ session('ok') }}
-        </div>
+        <div class="flash">{{ session('ok') }}</div>
     @endif
 
-    @yield('content')
+    @if (session('error'))
+        <div class="danger">{{ session('error') }}</div>
+    @endif
 
+    @isset($header)
+        <header>{{ $header }}</header>
+    @endisset
+
+    <main>
+        @isset($slot)
+            {{ $slot }}
+        @else
+            @yield('content')
+        @endisset
+    </main>
 </body>
 </html>
