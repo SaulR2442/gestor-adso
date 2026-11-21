@@ -14,9 +14,11 @@
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
             
             <div class="flex justify-between items-center mb-6">
+                @can('create', App\Models\Aprendiz::class)
                 <a class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700" href="{{ route('aprendices.create') }}">
                     + Nuevo aprendiz
                 </a>
+                @endcan
 
                 <form
                     class="flex gap-2"
@@ -60,8 +62,11 @@
                             <td class="px-6 py-4">{{ $aprendiz->correo }}</td>
                             <td class="px-6 py-4">{{ $aprendiz->ficha_id ?? 'Sin ficha' }}</td>
                             <td class="px-6 py-4 flex gap-2">
+                                @can('update', $aprendiz)
                                 <a href="{{ route('aprendices.edit', $aprendiz) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
+                                @endcan
 
+                                @can('delete', $aprendiz)
                                 <form
                                     action="{{ route('aprendices.destroy', $aprendiz) }}"
                                     method="POST"
@@ -70,6 +75,7 @@
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-900">Eliminar</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty

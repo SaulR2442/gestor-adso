@@ -12,15 +12,11 @@
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-            <form
-                action="{{ route('aprendices.update', ['aprendiz' => $aprendiz->id]) }}"
-                method="POST">
-
+            <form action="{{ route('aprendices.update', $aprendiz) }}" method="POST">
                 @method('PUT')
-
                 @include('aprendices._form', [
-                'aprendiz' => $aprendiz,
-                'buttonText' => 'Actualizar aprendiz',
+                    'aprendiz' => $aprendiz,
+                    'buttonText' => 'Actualizar aprendiz',
                 ])
             </form>
 

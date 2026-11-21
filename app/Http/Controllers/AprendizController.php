@@ -10,18 +10,18 @@ class AprendizController extends Controller
 {
     public function index(Request $request)
     {
-        $q = trim((string) $request->query('q', ''));
+        $this->authorize('viewAny', Aprendiz::class);
 
+        $q = $request->query('q');
         $aprendices = Aprendiz::query()
-            ->when($q !== '', function ($query) use ($q) {
-                $query->where(function ($subquery) use ($q) {
-                    $subquery
-                        ->where('nombre', 'like', "%{$q}%")
-                        ->orWhere('documento', 'like', "%{$q}%");
+            ->when($q, function ($query) use ($q) {
+                $query->where(function ($qb) use ($q) {
+                    $qb->where('nombre', 'like', "%{$q}%")
+                       ->orWhere('documento', 'like', "%{$q}%");
                 });
             })
-            ->oldest()
-            ->paginate(4)
+            ->latest()
+            ->paginate(10)
             ->withQueryString();
 
         return view('aprendices.index', compact('aprendices', 'q'));
@@ -29,42 +29,35 @@ class AprendizController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Aprendiz::class);
         $aprendiz = new Aprendiz();
-
         return view('aprendices.create', compact('aprendiz'));
     }
 
     public function store(StoreUpdateAprendizRequest $request)
     {
+        $this->authorize('create', Aprendiz::class);
         Aprendiz::create($request->validated());
-
-        return redirect()
-            ->route('aprendices.index')
-            ->with('ok', 'Aprendiz creado correctamente.');
+        return redirect()->route('aprendices.index')->with('ok', 'Aprendiz creado');
     }
 
     public function edit(Aprendiz $aprendiz)
     {
+        $this->authorize('update', $aprendiz);
         return view('aprendices.edit', compact('aprendiz'));
     }
 
-    public function update(
-        StoreUpdateAprendizRequest $request,
-        Aprendiz $aprendiz
-    ) {
+    public function update(StoreUpdateAprendizRequest $request, Aprendiz $aprendiz)
+    {
+        $this->authorize('update', $aprendiz);
         $aprendiz->update($request->validated());
-
-        return redirect()
-            ->route('aprendices.index')
-            ->with('ok', 'Aprendiz actualizado correctamente.');
+        return redirect()->route('aprendices.index')->with('ok', 'Aprendiz actualizado');
     }
 
     public function destroy(Aprendiz $aprendiz)
     {
+        $this->authorize('delete', $aprendiz);
         $aprendiz->delete();
-
-        return redirect()
-            ->route('aprendices.index')
-            ->with('ok', 'Aprendiz eliminado correctamente.');
+        return redirect()->route('aprendices.index')->with('ok', 'Aprendiz eliminado');
     }
 }
