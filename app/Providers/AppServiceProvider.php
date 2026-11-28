@@ -2,18 +2,23 @@
 
 namespace App\Providers;
 
-use App\Models\Aprendiz;
-use App\Policies\AprendizPolicy;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
-class AuthServiceProvider extends ServiceProvider
+class AppServiceProvider extends ServiceProvider
 {
-    protected $policies = [
-        Aprendiz::class => AprendizPolicy::class,
-    ];
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        //
+    }
 
+    /**
+     * Bootstrap any application services.
+     */
     public function boot(): void
     {
-        // La Policy queda registrada mediante $policies.
+        //
     }
 }

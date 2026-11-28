@@ -9,17 +9,17 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::updateOrCreate(
+        User::firstOrCreate(
             ['email' => 'admin@example.com'],
             ['name' => 'Admin', 'password' => 'Password123!', 'role' => 'admin']
         );
 
-        User::updateOrCreate(
+        User::firstOrCreate(
             ['email' => 'instructor@example.com'],
             ['name' => 'Instructor', 'password' => 'Password123!', 'role' => 'instructor']
         );
 
-        User::updateOrCreate(
+        User::firstOrCreate(
             ['email' => 'aprendiz@example.com'],
             ['name' => 'Aprendiz', 'password' => 'Password123!', 'role' => 'aprendiz']
         );

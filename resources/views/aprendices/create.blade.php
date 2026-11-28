@@ -2,13 +2,13 @@
 
 @section('title', 'Crear Aprendiz')
 
-@section('content')
-<x-slot name="header">
+@section('header')
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         {{ __('Crear Aprendiz') }}
     </h2>
-</x-slot>
+@endsection
 
+@section('content')
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">

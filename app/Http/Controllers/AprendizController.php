@@ -12,12 +12,12 @@ class AprendizController extends Controller
     {
         $this->authorize('viewAny', Aprendiz::class);
 
-        $q = $request->query('q');
+        $q = trim((string) $request->query('q', ''));
         $aprendices = Aprendiz::query()
             ->when($q, function ($query) use ($q) {
                 $query->where(function ($qb) use ($q) {
                     $qb->where('nombre', 'like', "%{$q}%")
-                       ->orWhere('documento', 'like', "%{$q}%");
+                        ->orWhere('documento', 'like', "%{$q}%");
                 });
             })
             ->latest()
@@ -30,7 +30,8 @@ class AprendizController extends Controller
     public function create()
     {
         $this->authorize('create', Aprendiz::class);
-        $aprendiz = new Aprendiz();
+        $aprendiz = new Aprendiz;
+
         return view('aprendices.create', compact('aprendiz'));
     }
 
@@ -38,12 +39,14 @@ class AprendizController extends Controller
     {
         $this->authorize('create', Aprendiz::class);
         Aprendiz::create($request->validated());
+
         return redirect()->route('aprendices.index')->with('ok', 'Aprendiz creado');
     }
 
     public function edit(Aprendiz $aprendiz)
     {
         $this->authorize('update', $aprendiz);
+
         return view('aprendices.edit', compact('aprendiz'));
     }
 
@@ -51,6 +54,7 @@ class AprendizController extends Controller
     {
         $this->authorize('update', $aprendiz);
         $aprendiz->update($request->validated());
+
         return redirect()->route('aprendices.index')->with('ok', 'Aprendiz actualizado');
     }
 
@@ -58,6 +62,7 @@ class AprendizController extends Controller
     {
         $this->authorize('delete', $aprendiz);
         $aprendiz->delete();
+
         return redirect()->route('aprendices.index')->with('ok', 'Aprendiz eliminado');
     }
 }

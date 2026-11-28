@@ -19,11 +19,16 @@
     <nav>
         @auth
             <a href="{{ route('aprendices.index') }}">Aprendices</a>
-            <span>Hola, {{ auth()->user()->name }}</span>
+
+            @can('manage-users')
+                <a href="{{ route('admin.users.index') }}">Usuarios</a>
+            @endcan
 
             @if (Route::has('profile.edit'))
                 <a href="{{ route('profile.edit') }}">Perfil</a>
             @endif
+
+            <span>Hola, {{ auth()->user()->name }}</span>
 
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -43,6 +48,10 @@
 
     @if (session('error'))
         <div class="danger">{{ session('error') }}</div>
+    @endif
+
+    @hasSection('header')
+        <header>@yield('header')</header>
     @endif
 
     @isset($header)
